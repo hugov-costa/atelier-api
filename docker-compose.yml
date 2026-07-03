@@ -1,0 +1,160 @@
+name: atelie
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: atelie:latest
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+      - vendor:/app/vendor
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(@file_get_contents('http://127.0.0.1:8000/up') ? 0 : 1);"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: atelie:latest
+    restart: unless-stopped
+    command: ["php", "artisan", "queue:work", "redis", "--sleep=1", "--tries=3", "--max-time=3600", "--backoff=5"]
+    environment:
+      CONTAINER_ROLE: worker
+    healthcheck:
+      disable: true
+    volumes:
+      - ./:/app
+      - vendor:/app/vendor
+    depends_on:
+      app:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: atelie:latest
+    restart: unless-stopped
+    command: ["php", "artisan", "schedule:work"]
+    environment:
+      CONTAINER_ROLE: scheduler
+    healthcheck:
+      disable: true
+    volumes:
+      - ./:/app
+      - vendor:/app/vendor
+    depends_on:
+      app:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  pulse:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: atelie:latest
+    restart: unless-stopped
+    command: ["php", "artisan", "pulse:work"]
+    environment:
+      CONTAINER_ROLE: pulse
+    healthcheck:
+      disable: true
+    volumes:
+      - ./:/app
+      - vendor:/app/vendor
+    depends_on:
+      app:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: atelier
+      POSTGRES_PASSWORD: atelier
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U atelier"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-atelier}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-atelier_secret}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - miniodata:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  createbuckets:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-atelier}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-atelier_secret}
+      MINIO_PRIVATE_BUCKET: ${MINIO_PRIVATE_BUCKET:-private}
+      MINIO_PUBLIC_BUCKET: ${MINIO_PUBLIC_BUCKET:-public}
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 $${MINIO_ACCESS_KEY} $${MINIO_SECRET_KEY};
+      mc mb -p local/$${MINIO_PRIVATE_BUCKET};
+      mc mb -p local/$${MINIO_PUBLIC_BUCKET};
+      mc anonymous set download local/$${MINIO_PUBLIC_BUCKET};
+      "
+
+volumes:
+  pgdata:
+  redisdata:
+  vendor:
+  miniodata:

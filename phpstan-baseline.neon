@@ -1,0 +1,97 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method App\\Services\\ClayService\:\:cachedPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/ClayService.php
+
+		-
+			message: '#^Method App\\Services\\ClayService\:\:runPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/ClayService.php
+
+		-
+			message: '#^Method App\\Services\\ClaySupplierService\:\:cachedPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/ClaySupplierService.php
+
+		-
+			message: '#^Method App\\Services\\ClaySupplierService\:\:runPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/ClaySupplierService.php
+
+		-
+			message: '#^Method App\\Services\\CustomerService\:\:cachedPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/CustomerService.php
+
+		-
+			message: '#^Method App\\Services\\CustomerService\:\:runPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/CustomerService.php
+
+		-
+			message: '#^Method App\\Services\\FiringCycleService\:\:cachedPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/FiringCycleService.php
+
+		-
+			message: '#^Method App\\Services\\FiringCycleService\:\:runPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/FiringCycleService.php
+
+		-
+			message: '#^Method App\\Services\\GlazeService\:\:cachedPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/GlazeService.php
+
+		-
+			message: '#^Method App\\Services\\GlazeService\:\:runPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/GlazeService.php
+
+		-
+			message: '#^Method App\\Services\\GlazeSupplierService\:\:cachedPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/GlazeSupplierService.php
+
+		-
+			message: '#^Method App\\Services\\GlazeSupplierService\:\:runPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/GlazeSupplierService.php
+
+		-
+			message: '#^Method App\\Services\\PieceCategoryService\:\:cachedPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/PieceCategoryService.php
+
+		-
+			message: '#^Method App\\Services\\PieceCategoryService\:\:runPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/PieceCategoryService.php
+
+		-
+			message: '#^Method App\\Services\\PieceService\:\:cachedPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/PieceService.php
+
+		-
+			message: '#^Method App\\Services\\PieceService\:\:runPaginate\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/PieceService.php

@@ -62,7 +62,7 @@ return [
     ],
 
     'ui' => [
-        'title' => 'atelie API',
+        'title' => 'atelier API',
     ],
 
     'renderer' => 'elements',

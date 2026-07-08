@@ -1,6 +1,6 @@
 # Production deployment (API)
 
-How to run `atelie` in production. For the full platform guide (front + API +
+How to run `atelier` in production. For the full platform guide (front + API +
 cookie/CORS interplay) see the front repo's `docs/DEPLOYMENT.md`; this document is the
 API-only reference.
 

@@ -1,11 +1,11 @@
-name: atelie
+name: atelier
 
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    image: atelie:latest
+    image: atelier:latest
     restart: unless-stopped
     ports:
       - "8000:8000"
@@ -28,7 +28,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: atelie:latest
+    image: atelier:latest
     restart: unless-stopped
     command: ["php", "artisan", "queue:work", "redis", "--sleep=1", "--tries=3", "--max-time=3600", "--backoff=5"]
     environment:
@@ -50,7 +50,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: atelie:latest
+    image: atelier:latest
     restart: unless-stopped
     command: ["php", "artisan", "schedule:work"]
     environment:
@@ -72,7 +72,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: atelie:latest
+    image: atelier:latest
     restart: unless-stopped
     command: ["php", "artisan", "pulse:work"]
     environment:

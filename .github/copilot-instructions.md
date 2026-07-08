@@ -1,4 +1,4 @@
-# atelie (Boilerplate API) — Project Instructions
+# atelier (Boilerplate API) — Project Instructions
 
 ## General
 - **Framework**: Laravel 13.x, PHP 8.3+ (platform: 8.5.7)

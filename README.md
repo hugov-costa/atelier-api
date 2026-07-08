@@ -1,4 +1,4 @@
-# atelie
+# atelier
 
 API-only service built with **Laravel 13** on **PHP 8.5**, served by **FrankenPHP + Laravel Octane**, backed by **PostgreSQL 18** and **Redis** (cache + queues), with outbound email delivered through **Mailjet** and object storage on **MinIO** (S3-compatible).
 

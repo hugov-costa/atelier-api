@@ -144,6 +144,6 @@ class TwoFactorService
     {
         $name = config('app.name');
 
-        return is_string($name) ? $name : 'atelie';
+        return is_string($name) ? $name : 'atelier';
     }
 }

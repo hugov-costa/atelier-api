@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\UserRole;
 use App\Models\Bill;
 use App\Models\CommissionOrder;
 use App\Models\Enrollment;
@@ -85,7 +86,7 @@ class ReportService
                 'by_category'     => $byCategory,
             ],
             'counts' => [
-                'active_students' => User::query()->where('is_active', true)->count(),
+                'active_students' => User::query()->where('is_active', true)->where('role', UserRole::User)->count(),
                 'new_enrollments' => Enrollment::query()->whereBetween('created_at', [$start, $end])->count(),
             ],
         ];

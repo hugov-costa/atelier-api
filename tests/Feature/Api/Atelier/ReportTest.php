@@ -90,6 +90,19 @@ class ReportTest extends TestCase
             ->assertJsonPath('data.production.by_category.0.margin', 7000);
     }
 
+    public function test_active_students_count_excludes_staff_and_inactive_users(): void
+    {
+        Sanctum::actingAs(User::factory()->admin()->create());
+
+        User::factory()->count(2)->create();
+        User::factory()->master()->create();
+        User::factory()->create(['is_active' => false]);
+
+        $this->getJson('/api/v1/reports/monthly')
+            ->assertOk()
+            ->assertJsonPath('data.counts.active_students', 2);
+    }
+
     public function test_students_cannot_view_reports(): void
     {
         Sanctum::actingAs(User::factory()->create());

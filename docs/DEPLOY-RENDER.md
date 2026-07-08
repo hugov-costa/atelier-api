@@ -83,7 +83,7 @@ APP_ENV=production
 APP_DEBUG=false
 APP_KEY=<deixe em branco, o entrypoint gera>
 APP_URL=https://seu-app.onrender.com   # troque pelo seu domínio depois
-FRONTEND_URL=https://seu-front.vercel.app  # URL do frontend (coloque depois)
+FRONTEND_URL=https://meuatelier.com.br  # origem pública ÚNICA do front (ver nota abaixo)
 
 DB_CONNECTION=pgsql
 DATABASE_URL=<cole a Internal Database URL do PostgreSQL aqui>
@@ -108,12 +108,22 @@ MAIL_PASSWORD=<sua Mailjet Secret Key>
 MAIL_FROM_ADDRESS=noreply@seudominio.com
 MAIL_FROM_NAME="Ateliê"
 
-CORS_ALLOWED_ORIGINS=https://seu-front.vercel.app
-AUTH_COOKIE_SAME_SITE=none
+CORS_ALLOWED_ORIGINS=https://meuatelier.com.br   # origem pública única do front
+AUTH_COOKIE_SAME_SITE=lax                        # ver nota de topologia abaixo
 
 TELESCOPE_ENABLED=false
 PULSE_ENABLED=false
 ```
+
+> **⚠️ Topologia com o front `serv_front` (origem única):** o front precisa **ler** o
+> cookie CSRF `__Host-XSRF-TOKEN` no navegador, e esse prefixo é *host-only* (sem
+> `Domain`). Por isso front e API devem ser servidos pela **mesma origem** (ex.:
+> `https://meuatelier.com.br`, com `/api/*` e `/sanctum/*` roteados para esta API).
+> Nesse cenário use `AUTH_COOKIE_SAME_SITE=lax` e aponte `FRONTEND_URL`/
+> `CORS_ALLOWED_ORIGINS` para essa origem única. **Não** use front na Vercel + API no
+> Render (cross-site) nem subdomínios `app.`/`api.` distintos: o `SameSite=none` até
+> envia o cookie, mas o front não consegue lê-lo → toda mutação falha com `419`.
+> Detalhes no `serv_front/docs/DEPLOY-RENDER.md` (Passo 0).
 
 **⚠️ Dicas importantes:**
 - `DATABASE_URL` é a **Internal Database URL** do Render (começa com `postgres://`)
@@ -237,7 +247,7 @@ curl -X POST https://boilerplate-api.onrender.com/api/v1/users/master \
   -H "Content-Type: application/json" \
   -d '{
     "name":"Administrador",
-    "email":"admin@meuatelie.com.br",
+    "email":"admin@meuatelier.com.br",
     "password":"Minha@Senha123",
     "password_confirmation":"Minha@Senha123"
   }'
@@ -245,7 +255,7 @@ curl -X POST https://boilerplate-api.onrender.com/api/v1/users/master \
 
 Se funcionar, você vai receber:
 ```json
-{"data":{"id":"<ULID>","name":"Administrador","email":"admin@meuatelie.com.br",...},"message":null}
+{"data":{"id":"<ULID>","name":"Administrador","email":"admin@meuatelier.com.br",...},"message":null}
 ```
 
 **⚠️ Esse comando só funciona UMA vez.** Depois que existir qualquer usuário no banco, ele é rejeitado.
@@ -258,7 +268,7 @@ Se funcionar, você vai receber:
 curl -X POST https://boilerplate-api.onrender.com/api/v1/login \
   -H "Content-Type: application/json" \
   -d '{
-    "email":"admin@meuatelie.com.br",
+    "email":"admin@meuatelier.com.br",
     "password":"Minha@Senha123"
   }'
 ```
@@ -271,7 +281,7 @@ Você deve receber um `token` de volta. Se recebeu → **Tudo funcionando!** �
 
 1. No dashboard do Render, vá em **"Settings"** do seu Web Service
 2. Role até **"Custom Domain"**
-3. Digite seu domínio: `api.meuatelie.com.br`
+3. Digite seu domínio: `api.meuatelier.com.br`
 4. Render mostra um **registro CNAME** que você precisa criar no DNS do seu domínio
 5. Vá no painel do seu provedor de domínio (Registro.br, HostGator, etc.)
 6. Crie um registro **CNAME**:

@@ -1,7 +1,7 @@
 {
     "openapi": "3.1.0",
     "info": {
-        "title": "atelie API",
+        "title": "atelier API",
         "version": "v1",
         "description": "Authenticate via `POST /api/v1/login` (or `register`), copy the `token` from the response,\nthen click **Authorize** and paste it to call protected endpoints. Browser clients can rely on\nthe httpOnly `access_token` cookie instead of the header. All errors follow RFC 7807\n(`application/problem+json`); successful responses use a `{ data, message }` envelope."
     },

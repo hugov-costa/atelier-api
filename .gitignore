@@ -28,3 +28,8 @@ Thumbs.db
 
 # Claude Code session data
 /.claude
+
+# Generated OpenAPI spec (served live by Scramble at /docs/api.json; the
+# committed snapshot cannot represent whenLoaded/service-computed shapes and
+# drifts from the PHP Resources, which are the source of truth). See docs/AUDIT.md L22.
+/api.json
